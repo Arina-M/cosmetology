@@ -1612,3 +1612,238 @@ footer {
     transform: none;
   }
 }
+
+/* ---------- CUSTOM SELECT ---------- */
+.select {
+  position: relative;
+}
+.select-trigger {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  font-family: "Manrope";
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  transition: 0.3s;
+  text-align: left;
+}
+.select-trigger:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+.select.open .select-trigger,
+.select-trigger:focus-visible {
+  outline: none;
+  border-color: var(--blue);
+  background: rgba(255, 255, 255, 0.1);
+}
+.select-chevron {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  color: var(--blue-soft);
+  transition: transform 0.3s;
+}
+.select.open .select-chevron {
+  transform: rotate(180deg);
+}
+.select-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  z-index: 20;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  box-shadow: 0 24px 50px -20px rgba(33, 61, 74, 0.4);
+  padding: 8px;
+  list-style: none;
+  max-height: 140px;
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px) scale(0.98);
+  transform-origin: top center;
+  transition: 0.22s cubic-bezier(0.2, 0.7, 0.3, 1);
+  scrollbar-width: thin;
+  scrollbar-color: var(--powder-2) transparent;
+}
+.select.open .select-menu {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+/* тонкий охайний скролбар (якщо пунктів багато) */
+.select-menu::-webkit-scrollbar {
+  width: 14px;
+}
+.select-menu::-webkit-scrollbar-track {
+  background: transparent;
+  margin: 10px 0; /* відступ зверху/знизу, щоб не впиратись у заокруглені кути */
+}
+.select-menu::-webkit-scrollbar-thumb {
+  background: var(--powder-2);
+  border-radius: 99px; /* повністю заокруглені краї */
+  border: 4px solid #fff; /* біла рамка робить «плаваючу» пігулку */
+  background-clip: padding-box;
+  min-height: 36px;
+}
+.select-menu::-webkit-scrollbar-thumb:hover {
+  background: var(--blue);
+}
+.select-option {
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-size: 15px;
+  color: var(--ink-2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  line-height: 1.2;
+  transition: background 0.15s, color 0.15s;
+}
+.select-option:hover,
+.select-option.active {
+  background: #eef5fa;
+  color: var(--ink);
+}
+.select-option.selected {
+  background: var(--powder);
+  color: var(--blue-ink);
+  font-weight: 600;
+}
+.select-option .ok {
+  width: 18px;
+  height: 18px;
+  flex: none;
+  opacity: 0;
+  color: var(--blue-ink);
+}
+.select-option.selected .ok {
+  opacity: 1;
+}
+
+/* ---------- FORM SUCCESS (екран подяки) ---------- */
+/* коли показано подяку — ховаємо заголовок, підзаголовок і плашку знижки */
+.booking-form.is-sent > .disc-pill,
+.booking-form.is-sent > h2,
+.booking-form.is-sent > p {
+  display: none;
+}
+.form-success {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 26px 10px 14px;
+  animation: fsIn 0.55s cubic-bezier(0.2, 0.7, 0.3, 1);
+}
+.form-success.show {
+  display: flex;
+}
+.fs-icon {
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  background: rgba(156, 196, 221, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 22px;
+  position: relative;
+}
+.fs-icon::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 1px solid rgba(156, 196, 221, 0.25);
+}
+.fs-icon svg {
+  width: 38px;
+  height: 38px;
+  color: var(--blue-soft);
+}
+.fs-icon svg path {
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  animation: fsDraw 0.6s 0.25s forwards cubic-bezier(0.6, 0.2, 0.1, 1);
+}
+.form-success h3 {
+  color: #fff;
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+.form-success p {
+  color: rgba(220, 235, 243, 0.72);
+  font-size: 15px;
+  max-width: 340px;
+  margin-bottom: 24px;
+  line-height: 1.6;
+}
+.fs-again {
+  background: none;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #dcebf3;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 11px 22px;
+  border-radius: 100px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.fs-again:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--blue);
+}
+@keyframes fsIn {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes fsDraw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---------- FORM ERROR (повідомлення про помилку) ---------- */
+#formErr {
+  display: none;
+  background: rgba(255, 140, 140, 0.12);
+  border: 1px solid rgba(255, 140, 140, 0.32);
+  color: #ffd6d6;
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 12px 16px;
+  border-radius: 12px;
+  margin-top: 14px;
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ---------- СТАБІЛЬНА ВИСОТА КАРТКИ ЗАПИСУ ----------
+   Щоб картка й фото не «стрибали» при зміні форми на екран подяки.
+   Висоту фіксує JS (main.js), а тут центруємо вміст по вертикалі. */
+@media (min-width: 1025px) {
+  .booking-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}

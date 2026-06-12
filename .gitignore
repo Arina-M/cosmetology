@@ -1,0 +1,12 @@
+# Переменные окружения
+.env
+.env.local
+.env.example
+
+# Node.js
+node_modules/
+
+# Логи
+*.log
+
+data

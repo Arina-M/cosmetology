@@ -683,43 +683,70 @@
                 alt="Запис на косметологічну процедуру"
               />
             </div>
+            
             <div class="booking-form">
               <span class="disc-pill">★ Знижка −20% на перший візит</span>
               <h2>Запишіться <em>на візит</em></h2>
               <p>
-                Залиште контакти — адміністратор передзвонить, підбере зручний час і відповість на запитання.
+                Залиште контакти — адміністратор передзвонить, підбере зручний час і
+                відповість на запитання.
               </p>
+
               <form id="bookForm">
+                <!-- honeypot: користувач його не бачить, заповнюють лише боти -->
+                <input type="text" name="website" id="hp_website" tabindex="-1"
+                  autocomplete="off" aria-hidden="true"
+                  style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" />
+
                 <div class="field">
                   <label for="bname">Ваше ім'я</label>
                   <input type="text" id="bname" placeholder="Як до вас звертатися" required />
                 </div>
+
                 <div class="field">
                   <label for="bphone">Телефон</label>
                   <input type="tel" id="bphone" placeholder="+38 (0__) ___-__-__" required />
                 </div>
+
                 <div class="field">
-                  <label for="bserv">Послуга</label>
-                  <select id="bserv">
-                    <option>Консультація</option>
-                    <option>Чистка обличчя</option>
-                    <option>Доглядова програма</option>
-                    <option>Пілінг</option>
-                    <option>Апаратна косметологія</option>
-                    <option>Ін'єкційні методики</option>
-                    <option>Догляд за тілом</option>
-                  </select>
+                  <label id="bserv-label">Послуга</label>
+                  <div class="select" id="bservSelect">
+                    <button type="button" class="select-trigger" aria-haspopup="listbox"
+                      aria-expanded="false" aria-labelledby="bserv-label">
+                      <span class="select-value">Консультація</span>
+                      <svg class="select-chevron" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6" /></svg>
+                    </button>
+                    <ul class="select-menu" role="listbox" tabindex="-1" aria-labelledby="bserv-label">
+                      <li class="select-option selected" role="option" data-value="Консультація" aria-selected="true">Консультація<svg class="ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5" /></svg></li>
+                      <li class="select-option" role="option" data-value="Чистка обличчя" aria-selected="false">Чистка обличчя<svg class="ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5" /></svg></li>
+                      <li class="select-option" role="option" data-value="Доглядова програма" aria-selected="false">Доглядова програма<svg class="ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5" /></svg></li>
+                      <li class="select-option" role="option" data-value="Пілінг" aria-selected="false">Пілінг<svg class="ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5" /></svg></li>
+                      <li class="select-option" role="option" data-value="Апаратна косметологія" aria-selected="false">Апаратна косметологія<svg class="ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5" /></svg></li>
+                      <li class="select-option" role="option" data-value="Ін'єкційні методики" aria-selected="false">Ін'єкційні методики<svg class="ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5" /></svg></li>
+                      <li class="select-option" role="option" data-value="Догляд за тілом" aria-selected="false">Догляд за тілом<svg class="ok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5" /></svg></li>
+                    </ul>
+                    <!-- значення, яке піде на бекенд -->
+                    <input type="hidden" id="bserv" value="Консультація" />
+                  </div>
                 </div>
-                <button type="submit" class="btn">
-                  Записатися та отримати −20%
-                </button>
+
+                <button type="submit" class="btn">Записатися та отримати −20%</button>
                 <p class="form-note">
                   Натискаючи кнопку, ви погоджуєтесь на обробку персональних даних.
                 </p>
-                <p class="form-ok" id="formOk">
-                  Дякуємо! Ми зв'яжемося з вами найближчим часом ✦
-                </p>
+                <p id="formErr"></p>
               </form>
+
+              <!-- Екран подяки (показується після відправки) -->
+              <div class="form-success" id="formSuccess">
+                <div class="fs-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 6L9 17l-5-5" /></svg>
+                </div>
+                <h3>Дякуємо за заявку!</h3>
+                <p>Ми вже отримали ваші контакти й зв'яжемося з вами найближчим часом, щоб підтвердити запис.</p>
+                <button type="button" class="fs-again" id="formAgain">Надіслати ще одну заявку</button>
+              </div>
             </div>
           </div>
         </div>
