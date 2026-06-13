@@ -230,34 +230,29 @@ document.querySelectorAll(".select").forEach(function (sel) {
 });
 
 // ============================================================
-//  Booking form → відправка заявки на бекенд
-//  Якщо бекенд на ІНШОМУ домені — впишіть його, напр.
-//  const API_BASE = "https://api.svitla-studio.com.ua";
-//  Якщо лендинг у public/ того ж сервера — лишіть "".
+//  Booking form — ДЕМО-режим (без бекенда)
+//  Заявка нікуди не надсилається. Після заповнення форми
+//  показуємо екран подяки — щоб лендинг можна було показувати
+//  людям «як живий». Реальне відправлення вмикається разом
+//  із бекендом (там окрема версія main.js із fetch).
 // ============================================================
-const API_BASE = "";
-const GENERIC_ERROR =
-  "Ой, сталася помилка. Спробуйте ще раз або зателефонуйте нам: +38 (067) 123-45-67";
-
 (function () {
   const form = document.getElementById("bookForm");
   if (!form) return;
   const card = form.closest(".booking-card");
   const successPanel = document.getElementById("formSuccess");
-  const errBox = document.getElementById("formErr");
   const submitBtn = form.querySelector('button[type="submit"]');
   const submitText = submitBtn ? submitBtn.textContent : "";
   const isDesktop = () => window.matchMedia("(min-width:1025px)").matches;
 
-  // Фіксуємо висоту картки за формою (тільки desktop), щоб картка й фото
-  // не «стрибали», коли форма змінюється на екран подяки.
+  // Фіксуємо висоту картки (desktop), щоб картка й фото не «стрибали»
   function lockHeight() {
     if (!card) return;
     if (!isDesktop()) {
       card.style.minHeight = "";
       return;
     }
-    if (card.classList.contains("is-locked")) return; // у стані подяки не міряємо
+    if (card.classList.contains("is-locked")) return;
     card.style.minHeight = "";
     card.style.minHeight = card.offsetHeight + "px";
   }
@@ -268,13 +263,7 @@ const GENERIC_ERROR =
     resizeT = setTimeout(lockHeight, 150);
   });
 
-  function showError(msg) {
-    if (!errBox) return;
-    errBox.textContent = msg;
-    errBox.style.display = "block";
-  }
   function showSuccess() {
-    // запам'ятовуємо поточну висоту, щоб подяка зайняла рівно стільки ж
     if (card && isDesktop()) {
       card.style.minHeight = card.offsetHeight + "px";
       card.classList.add("is-locked");
@@ -285,42 +274,14 @@ const GENERIC_ERROR =
     if (successPanel) successPanel.classList.add("show");
   }
 
-  form.addEventListener("submit", async function (e) {
+  // Поля name/phone мають атрибут required — браузер сам не дасть
+  // надіслати порожню форму. Тож тут лишається тільки показати подяку.
+  form.addEventListener("submit", function (e) {
     e.preventDefault();
-    if (errBox) errBox.style.display = "none";
-
-    const hp = document.getElementById("hp_website"); // honeypot
-    const payload = {
-      name: document.getElementById("bname").value.trim(),
-      phone: document.getElementById("bphone").value.trim(),
-      service: document.getElementById("bserv").value,
-      website: hp ? hp.value : "",
-    };
-
     submitBtn.disabled = true;
     submitBtn.textContent = "Надсилаємо…";
-
-    try {
-      const r = await fetch(API_BASE + "/api/bookings", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-      const data = await r.json().catch(() => ({}));
-      if (r.ok && data.ok) {
-        showSuccess();
-      } else {
-        // data.error — зрозуміле повідомлення від сервера (напр. про телефон)
-        showError(data.error || GENERIC_ERROR);
-        submitBtn.disabled = false;
-        submitBtn.textContent = submitText;
-      }
-    } catch (ex) {
-      // мережева/технічна помилка — дружнє повідомлення без термінів
-      showError(GENERIC_ERROR);
-      submitBtn.disabled = false;
-      submitBtn.textContent = submitText;
-    }
+    // невелика затримка, щоб виглядало «як справжнє»
+    setTimeout(showSuccess, 600);
   });
 
   // «Надіслати ще одну заявку» — повертає форму
@@ -335,10 +296,8 @@ const GENERIC_ERROR =
       document
         .querySelectorAll(".select")
         .forEach((s) => s._reset && s._reset());
-      if (errBox) errBox.style.display = "none";
       submitBtn.disabled = false;
       submitBtn.textContent = submitText;
-      // знімаємо фіксацію висоти й переміряємо під форму
       if (card) card.classList.remove("is-locked");
       lockHeight();
     });

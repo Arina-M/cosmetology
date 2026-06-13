@@ -358,6 +358,7 @@ header.scrolled {
   display: flex;
   gap: 40px;
   /* flex-wrap: wrap; */
+  text-align: center;
 }
 .stat .num {
   /* font-family: "Cormorant"; */
