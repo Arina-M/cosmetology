@@ -356,9 +356,10 @@ header.scrolled {
 }
 .hero-stats {
   display: flex;
-  gap: 40px;
+  /* gap: 40px; */
   /* flex-wrap: wrap; */
   text-align: center;
+  justify-content: space-between;
 }
 .stat .num {
   /* font-family: "Cormorant"; */
@@ -1490,6 +1491,7 @@ footer {
   .hero-stats {
     gap: 14px;
     text-align: center;
+    justify-content: space-between;
   }
   .stat .num {
     font-size: 24px;
@@ -1581,8 +1583,14 @@ footer {
   }
   .foot-grid {
     grid-template-columns: 1fr;
-    gap: 30px;
+    gap: 60px;
+    text-align: center;
   }
+  .socials{
+    justify-content: center;
+    gap: 24px;
+  }
+
   .foot-col p{
     max-width: 100%;
   }
